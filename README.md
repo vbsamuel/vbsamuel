@@ -1,6 +1,6 @@
 - 👋 Hi, I’m @vbsamuel
 - 👀 I’m interested in Augmented insights & intelligence (Deep Learning/Machine Learning), Workflow Automation and Event-based Messaging, Augmented Reality and Mixed Reality
-- 🌱 I’m currently learning decenteralized personalization and biowearables synchronization with  brain cognitive processing
+- 🌱 I’m currently learning decenteralized personalization and wearables synchronization with brain cognitive processing
 - 💞️ I’m looking to collaborate on anything that is fun in AR/XR, AI/ML, Automation, and Wearables
 - 📫 How to reach me : bruno@alumni.upenn.edu
 
