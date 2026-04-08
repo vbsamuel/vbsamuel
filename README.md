@@ -20,7 +20,7 @@ I'm interested in the underlying mechanics of inference, memory, and scheduling.
 
 📎 **Current Technical Focus**
 
-> Building systems that are deterministic, auditable, and reliable under real-world constraints.
+Building systems that are deterministic, auditable, and reliable under real-world constraints.
 
 - **Event-driven systems** working on deterministic execution with replay, causal ordering, and full traceability across distributed workflows  
 - **Execution runtimes** building contract-bound systems where agents operate with clear capability limits, policy enforcement, and predictable behavior  
