@@ -51,5 +51,4 @@ Some personal work often involves:
 
 📫 **Contact**
 
-If you’re working on something hard, weird, or foundational:  
-📧 [`bruno@alumni.upenn.edu`](mailto:bruno@alumni.upenn.edu)
+If you’re working on something hard, weird, or foundational, ping me!
