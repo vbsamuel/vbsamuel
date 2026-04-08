@@ -20,11 +20,16 @@ I'm interested in the underlying mechanics of inference, memory, and scheduling.
 
 📎 **Current Technical Focus**
 
-- **Event Graphs** temporal dependency resolution and signal propagation across compute clusters  
-- **Function Scheduling** interrupt-driven synchronization and context-local memory coordination  
-- **Inference Routing** parallel dataflow compilation across CPU/GPU/NPU fabrics  
-- **Abstraction Layers** composable runtime interfaces for cross-domain semantic systems  
-- **Spatial Computing** bridging physical-digital boundaries through minimal-UI feedback loops  
+> Building systems that are deterministic, auditable, and reliable under real-world constraints.
+
+- **Event-driven systems** working on deterministic execution with replay, causal ordering, and full traceability across distributed workflows  
+- **Execution runtimes** building contract-bound systems where agents operate with clear capability limits, policy enforcement, and predictable behavior  
+- **Digital twins** developing closed-loop systems that connect simulation and real-world feedback, especially for biological and physical domains  
+- **Compute and inference routing** orchestrating workloads across CPU, GPU, and edge devices with attention to latency and resource constraints  
+- **Knowledge and execution graphs** designing low-latency data models that combine relational structure and embeddings for fast, grounded decisions  
+- **Long-horizon compute** handling recursive and iterative workloads with checkpointing, convergence control, and state consistency  
+- **Spatial and edge systems** integrating perception, decision, and action in real-time environments with tight performance constraints  
+
 
 ---
 
