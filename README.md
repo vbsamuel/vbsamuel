@@ -1,87 +1,154 @@
 # Bruno Samuel
 
-**Product & Engineering Executive | AI Systems · Distributed Runtimes · XR / Spatial Computing · Payments**
+I build **runtime infrastructure for AI-native systems**: durable execution, machine authority, causal lineage, event fabrics, multimodal state, recovery, and independently verifiable effects.
 
-San Francisco Bay Area  
-MBA, The Wharton School · MS Electrical Engineering, USC
+Most of the work below is in private repositories. I describe the mechanics here because the interesting part is not the project name — it is the invariants the system has to preserve when processes crash, work retries, authority changes, effects become ambiguous, or multiple actors mutate state concurrently.
 
-I build products and technical systems where **product strategy, architecture, execution, and operating reality have to stay coupled**. My work spans AI/agentic infrastructure, distributed execution, multimodal and spatial systems, developer platforms, payments, governance, reliability, and large-scale product/engineering operations.
-
-My career has included leadership roles and programs across **Meta, PayPal, eBay**, and independent AI/systems development. I tend to work best on problems that are technically deep, commercially consequential, cross-functional, and too ambiguous to solve by treating product, engineering, data, infrastructure, risk, and operations as separate functions.
+`Rust` · `Go` · `Python` · `TypeScript` · `WASM` · Linux/WSL · Windows · local/edge inference
 
 ---
 
-## What I’m building now
+## Current engineering
 
-I’m working on a set of production-oriented systems around a common question: **what has to exist underneath AI so that autonomous software can execute real work with explicit state, authority, recovery, evidence, and measurable outcomes?**
+### Nhilith — authority for non-human execution
 
-| System | Engineering problem | Core signal |
-|---|---|---|
-| **Amalgus** | Take real work from objective/context through investigation, transformation, execution, measurement and independently verified completion | AI-native workbench, execution semantics, multimodal context, local/private intelligence routing, proof-carrying work |
-| **Nhilith** | Govern authority-bearing execution by software identities, workloads and autonomous systems | machine identity, delegation, revocation, signed authority, replay protection, durable effects, recovery |
-| **HOLI** | Preserve attribution, lineage, persistence and recoverability when humans/agents/tools create concurrent outputs | Rust/Go runtime, causal lineage, journals/CAS, crash recovery, settlement, idempotency, resource governance |
-| **DISERI / EEF** | Collapse event transport, workflow/state-machine execution, incremental computation, replay and effect reconciliation into a typed execution fabric | streaming, distributed systems, semantic execution, exact unique work, durable effect finality |
-| **UDRL** | Represent continuously evolving multimodal state independently of any one product or UI | dynamic representation, semantic ownership, multimodal state, capability contracts, bounded resource semantics |
+Authentication is not enough for software that can change real state. Nhilith treats identity, delegation, policy, revocation, predecessor state, replay protection, durable mutation, external effects, and recovery as one authority path.
 
-[Systems and architecture notes →](SYSTEMS.md)
+```text
+subject + execution context
+        ↓
+canonical authorization / delegation
+        ↓
+epoch + revocation + predecessor checks
+        ↓
+replay / idempotency commitment
+        ↓
+durable authority mutation
+        ↓
+external effect authorization
+        ↓
+observed outcome / reconciliation
+        ↓
+evidence + recovery state
+```
+
+Recent implementation work includes collapsing policy mutation onto a canonical store owner, persisting policy changes as durable domain events, removing compatibility-owned writers, and making mutation-sequence overflow fail closed rather than wrap or silently clamp.
+
+The design question is simple: **after a restart, revocation, retry, or partial failure, can the system still prove who had authority to do what — and whether the effect actually happened?**
+
+### HOLI — lineage, execution, and recovery for heterogeneous work
+
+HOLI coordinates outputs created concurrently by agents, tools, processes, and humans without losing attribution or effect history as work forks, retries, and converges.
+
+```text
+work identity
+   ↓
+journal / CAS / lineage
+   ↓
+admission + bounded supervision
+   ↓
+reservation of externally visible effect
+   ↓
+execution
+   ↓
+readback / settlement
+   ↓
+closure + recoverable evidence
+```
+
+The runtime spans Rust and Go and includes durable journals, content-addressed storage, execution admission, process supervision, resource accounting, external-effect reservation/settlement, currentness/fencing, crash recovery, and operator readback. One Linux/WSL baseline has been qualified at an immutable SHA across compile, strict Clippy, workspace tests, Go tests, recovery tests, and source-law checks; later source is deliberately not allowed to inherit that evidence.
+
+### DISERI / EEF — event execution fabric
+
+EEF is an attempt to stop treating transport, queues, workflow execution, state machines, incremental computation, replay, and effect reconciliation as unrelated layers with duplicate state and duplicate ownership.
+
+```text
+interaction
+   ↓
+exact work identity
+   ↓
+durable event / state transition
+   ↓
+incremental operator + causal/time frontier
+   ↓
+workflow / service execution
+   ↓
+external effect finality
+   ↓
+replay / recovery / handoff
+```
+
+A current refactor moved build-routing policy under the dispatch owner instead of allowing worker/runtime layers to duplicate it. The dispatch path now owns validation, deterministic ramp selection, pinned workflow routing, and the persisted binding. That kind of ownership cleanup matters more to me than adding another abstraction layer.
+
+### Amalgus — AI-native workbench
+
+Amalgus is the product layer I am designing around the same runtime concerns: take an actual body of work — repository, model, dataset, document corpus, video, device, or technical problem — and move it to a measured result rather than stop at generation.
+
+Its execution model separates **Work**, **Step**, and **Effect** state, uses stable semantic identities for idempotency, treats ambiguous external effects as a reconciliation problem rather than a blind-retry problem, and keeps proof/evidence separate from model output.
+
+```text
+objective + artifacts
+      ↓
+understand / investigate
+      ↓
+generate bounded alternatives
+      ↓
+execute / measure
+      ↓
+independent evaluator or readback
+      ↓
+verified result + reproducible evidence
+```
+
+### UDRL — dynamic multimodal representation
+
+UDRL is a product-independent substrate for continuously evolving multimodal state. The important design constraint is ownership: one canonical owner for a semantic concept, configuration domain, and mutation path; product surfaces consume typed capability contracts instead of creating parallel truth.
+
+[Deeper system notes](SYSTEMS.md)
 
 ---
 
-## Operating scale
+## Invariants I keep coming back to
 
-### Meta
-Product/engineering program leadership across XR input and developer/platform capabilities, with dependencies spanning software, hardware, infrastructure, APIs, privacy, legal, product and launch readiness.
+These are the kinds of distinctions that determine whether an AI/system demo survives contact with production:
 
-### PayPal
-Director-level product/engineering leadership in global Safety, Security, Risk & Compliance across a payments platform operating at **hundreds of millions of users and hundreds of billions of dollars in payment volume**, including large global engineering and operating organizations.
+```text
+authenticated caller        ≠ authorized operation
+message delivered           ≠ work executed
+command returned success    ≠ external effect observed
+retry                       ≠ idempotency
+model confidence            ≠ evidence
+projection                  ≠ authority
+source exists               ≠ production path is reachable
+compile passes               ≠ runtime is qualified
+current main                ≠ an older SHA's test evidence
+```
 
-### eBay
-Senior business/product leadership across major operating change, including work around the eBay/PayPal separation and personalization/product operations.
+For state-changing paths I prefer:
 
-### Independent systems / AI
-Architecture and implementation of AI-native runtimes, multimodal/context systems, distributed execution fabrics, machine-authority governance, local inference, agentic systems, RAG/evidence systems and developer infrastructure.
+- **one writer / one semantic owner** instead of mirrored policy or state;
+- explicit FSM transitions instead of implicit lifecycle flags;
+- stable semantic effect IDs before dispatch;
+- append-only evidence where mutation history matters;
+- fencing/epochs where stale actors can still be alive;
+- readback before claiming a real-world effect;
+- `UNKNOWN_EFFECT` / reconciliation rather than unsafe retry;
+- bounded resources and checked arithmetic on correctness-bearing paths;
+- restart/replay/fault behavior designed with the happy path, not after it;
+- qualification bound to the exact source/config/platform being claimed.
 
----
-
-## Technical depth
-
-**AI / agentic systems**  
-Local and hosted inference · multi-agent orchestration · context/memory · RAG/evidence systems · model routing · evaluation · tool execution · multimodal AI · AI safety/governance
-
-**Distributed systems**  
-Event-driven architecture · causal ordering · append-only state · idempotency · replay/recovery · finite-state machines · durable execution · consensus/fencing · effect reconciliation · observability
-
-**Systems / runtime engineering**  
-Rust · Go · Python · TypeScript · WebAssembly · Linux/WSL · Windows · concurrency · process supervision · resource governance · low-latency execution · GPU/ROCm-oriented optimization
-
-**Product / platform**  
-Developer ecosystems · platform APIs · XR/spatial computing · payments · enterprise controls · data products · product operating models · launch/release systems · 0→1 and scale
-
----
-
-## Engineering principles
-
-The standard I optimize for is not “the demo works.” It is:
-
-- one clear owner for each state/authority domain;
-- no hidden duplicate writers or success semantics;
-- bounded resource behavior and explicit failure modes;
-- semantic idempotency for externally visible effects;
-- restart/replay/recovery as product behavior, not afterthoughts;
-- independently observable evidence for consequential outcomes;
-- exact-source qualification rather than status-by-assertion;
-- complete user/operator verticals rather than isolated components.
-
-If a system cannot explain **what happened, why it was allowed, what state changed, whether the external effect actually occurred, and how it recovers after interruption**, I do not consider the work closed.
+A system is not finished because a prompt, API call, connector, test stub, or dashboard exists. I want the real vertical to survive interruption and still converge to a state that can be independently explained.
 
 ---
 
-## About the repositories here
+## Background
 
-This account also contains forks, courses, experiments, and reference repositories I’ve used while researching AI/ML systems. Those are not presented as original authorship. Most current original systems work is in private repositories; the architecture notes above summarize the active work without exposing source.
+I have worked across product and engineering at **Meta, PayPal, and eBay**, including XR/developer platforms, payments, security/risk, data products, and large cross-functional launch and operating programs. My formal background is an **MBA from Wharton** and an **MS in Electrical Engineering from USC**.
+
+The through-line is the same as the systems work above: technically consequential products where architecture, product behavior, operating constraints, and business outcomes cannot be separated cleanly.
 
 ---
 
-I’m interested in hard product and engineering problems where architecture, execution, and business consequences are tightly coupled.
+This account also contains forks, courses, and reference repositories used in research. I do not present those as original authorship.
 
-[LinkedIn](https://www.linkedin.com/in/bsamuel) · [GitHub](https://github.com/vbsamuel)
+[LinkedIn](https://www.linkedin.com/in/bsamuel)
