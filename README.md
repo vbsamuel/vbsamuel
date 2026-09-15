@@ -7,13 +7,13 @@ MBA, The Wharton School · MS Electrical Engineering, USC
 
 I build products and technical systems where **product strategy, architecture, execution, and operating reality have to stay coupled**. My work spans AI/agentic infrastructure, distributed execution, multimodal and spatial systems, developer platforms, payments, governance, reliability, and large-scale product/engineering operations.
 
-My career has included leadership roles and programs across **Meta, PayPal, eBay**, and independent AI/systems development. I am most useful on problems that are technically deep, commercially consequential, cross-functional, and too ambiguous to solve by treating product, engineering, data, infrastructure, risk, and operations as separate functions.
+My career has included leadership roles and programs across **Meta, PayPal, eBay**, and independent AI/systems development. I tend to work best on problems that are technically deep, commercially consequential, cross-functional, and too ambiguous to solve by treating product, engineering, data, infrastructure, risk, and operations as separate functions.
 
 ---
 
-## Current systems portfolio
+## What I’m building now
 
-I am currently building a set of production-oriented systems around a common question: **what has to exist underneath AI so that autonomous software can execute real work with explicit state, authority, recovery, evidence, and measurable outcomes?**
+I’m working on a set of production-oriented systems around a common question: **what has to exist underneath AI so that autonomous software can execute real work with explicit state, authority, recovery, evidence, and measurable outcomes?**
 
 | System | Engineering problem | Core signal |
 |---|---|---|
@@ -23,9 +23,7 @@ I am currently building a set of production-oriented systems around a common que
 | **DISERI / EEF** | Collapse event transport, workflow/state-machine execution, incremental computation, replay and effect reconciliation into a typed execution fabric | streaming, distributed systems, semantic execution, exact unique work, durable effect finality |
 | **UDRL** | Represent continuously evolving multimodal state independently of any one product or UI | dynamic representation, semantic ownership, multimodal state, capability contracts, bounded resource semantics |
 
-**[Read the recruiter-facing technical portfolio →](SELECTED_WORK.md)**
-
-Most current source is private. The linked portfolio describes the actual engineering problems and architecture without exposing proprietary implementation.
+[Systems and architecture notes →](SYSTEMS.md)
 
 ---
 
@@ -61,7 +59,7 @@ Developer ecosystems · platform APIs · XR/spatial computing · payments · ent
 
 ---
 
-## Engineering standard
+## Engineering principles
 
 The standard I optimize for is not “the demo works.” It is:
 
@@ -78,16 +76,12 @@ If a system cannot explain **what happened, why it was allowed, what state chang
 
 ---
 
-## How to read this GitHub account
+## About the repositories here
 
-This personal account contains a mix of **original prototypes, experiments, technical studies, forks, courses, and reference repositories** accumulated while researching AI/ML systems. A fork or learning repository should not be interpreted as original authorship.
-
-My current original systems work is concentrated primarily in private product repositories. The strongest public entry point is therefore the **[Selected Systems Portfolio](SELECTED_WORK.md)** above, which explains the architecture and engineering scope directly.
+This account also contains forks, courses, experiments, and reference repositories I’ve used while researching AI/ML systems. Those are not presented as original authorship. Most current original systems work is in private repositories; the architecture notes above summarize the active work without exposing source.
 
 ---
 
-## Recruiter context
-
-Best fit is work requiring both **executive product/engineering judgment and technical depth**: VP/SVP Product & Engineering, Head of AI/ML or Platform, CTO-level mandates, AI-native product/platform creation, developer infrastructure, XR/spatial platforms, payments, or complex technology transformation.
+I’m interested in hard product and engineering problems where architecture, execution, and business consequences are tightly coupled.
 
 [LinkedIn](https://www.linkedin.com/in/bsamuel) · [GitHub](https://github.com/vbsamuel)
