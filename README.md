@@ -13,7 +13,7 @@ PayPal    global safety / security / risk platforms    300M+ users · $500B+ TPV
 eBay      separation / personalization / operations    large-scale platform change, data center migration, and end-2-end day -1, 0, 100 ops stability and cutover execution
 ```
 
-Work in my scope included reducing reporting latency from roughly **24 hours to under a minute**, reducing cart abandonment by about **10%**, and scaling PayPal Credit from launch to **$1B+ ARR**. At Meta, I worked across software, hardware, infrastructure, OpenXR/API surfaces, privacy, legal and NPI/launch dependencies for XR input and developer capabilities.
+Work in my scope included reducing reporting latency from roughly **24 hours to under a minute**, reducing cart abandonment by about **10%**, and scaling PayPal Credit from launch to **$1B+ ARR**. At Meta, I worked across software, hardware, infrastructure, OpenXR/API surfaces, privacy, legal and NPI/launch dependencies and developer capabilities.
 
 ---
 
