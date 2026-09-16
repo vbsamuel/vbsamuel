@@ -1,3 +1,4 @@
+Bruno Samuel
 **AI systems · distributed runtimes · developer platforms · XR / spatial computing · payments**  
 San Francisco Bay Area · MBA, Wharton · MS Electrical Engineering, USC
 
