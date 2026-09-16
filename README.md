@@ -6,13 +6,14 @@ San Francisco Bay Area · MBA, Wharton · MS Electrical Engineering, USC
 I work at the boundary where product architecture becomes operating software: state, execution, data, infrastructure, reliability, controls, developer experience, and the economics of running the system at scale.
 
 ```text
-Meta      XR input + developer/platform programs       100+ B2B customers
+Amalgus   national research lab projects and real-time systems covering data streams, realtime interactions, and workflow automations covering multimodel spatial interaction systems
+Meta      central platform monetization + release gate standardization + developer/platform programs       100+ B2B customers
 PayPal    global safety / security / risk platforms    300M+ users · $500B+ TPV
-          engineering + operations                     300+ FTE · 200+ contractors
-eBay      separation / personalization / operations    large-scale platform change
+          engineering + operations                     500+ org
+eBay      separation / personalization / operations    large-scale platform change, data center migration, and end-2-end day -1, 0, 100 ops stability and cutover execution
 ```
 
-At PayPal, work in my scope included reducing reporting latency from roughly **24 hours to under a minute**, reducing cart abandonment by about **10%**, and scaling PayPal Credit from launch to **$1B+ ARR**. At Meta, I worked across software, hardware, infrastructure, OpenXR/API surfaces, privacy, legal and NPI/launch dependencies for XR input and developer capabilities.
+Work in my scope included reducing reporting latency from roughly **24 hours to under a minute**, reducing cart abandonment by about **10%**, and scaling PayPal Credit from launch to **$1B+ ARR**. At Meta, I worked across software, hardware, infrastructure, OpenXR/API surfaces, privacy, legal and NPI/launch dependencies for XR input and developer capabilities.
 
 ---
 
