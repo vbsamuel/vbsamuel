@@ -2,7 +2,7 @@
 
 I build systems where AI has to operate under real constraints: **latency, memory, concurrency, state, recovery, and evidence**.
 
-Meta · PayPal · eBay  
+Amalgus. Meta · PayPal · eBay  
 MBA, Wharton · MS Electrical Engineering, USC · San Francisco Bay Area
 
 ## Recent lab work
