@@ -1,67 +1,100 @@
 # Bruno Samuel
 
-**Product & Engineering Executive · AI Systems · Distributed Infrastructure · XR / Spatial Computing · Payments**
+**AI systems · distributed runtimes · developer platforms · XR / spatial computing · payments**  
+San Francisco Bay Area · MBA, Wharton · MS Electrical Engineering, USC
 
-San Francisco Bay Area  
-MBA, The Wharton School · MS Electrical Engineering, USC
+I work at the boundary where product architecture becomes operating software: state, execution, data, infrastructure, reliability, controls, developer experience, and the economics of running the system at scale.
 
-I have spent my career working on products and platforms where **software architecture, product behavior, operating constraints, and business outcomes are tightly coupled**.
+```text
+Meta      XR input + developer/platform programs       100+ B2B customers
+PayPal    global safety / security / risk platforms    300M+ users · $500B+ TPV
+          engineering + operations                     300+ FTE · 200+ contractors
+eBay      separation / personalization / operations    large-scale platform change
+```
 
-My background spans large-scale product and engineering leadership at **Meta, PayPal, and eBay**, followed by hands-on work in AI systems, distributed runtimes, developer infrastructure, multimodal computing, and low-latency execution.
-
-Most of my current systems work is proprietary and in active development. I do not publish project names, internal architecture, or implementation details here simply to make the profile look busier.
-
----
-
-## Experience at scale
-
-### Meta
-Led product/engineering programs across XR input and developer-platform capabilities, spanning software, hardware, infrastructure, APIs, privacy, legal, NPI, and launch readiness. The work included developer-facing capabilities used by 100+ B2B customers and large-scale KPI/release governance across the platform.
-
-### PayPal
-Director-level leadership across global Safety, Security, Risk & Compliance for a payments platform serving hundreds of millions of users and processing hundreds of billions of dollars in payment volume. Scope included large engineering and operating organizations, platform controls, data products, product risk, and customer/merchant experience.
-
-### eBay
-Senior product/business leadership during the eBay/PayPal separation, including operating-model change, personalization, cost/portfolio decisions, and cross-functional execution.
+At PayPal, work in my scope included reducing reporting latency from roughly **24 hours to under a minute**, reducing cart abandonment by about **10%**, and scaling PayPal Credit from launch to **$1B+ ARR**. At Meta, I worked across software, hardware, infrastructure, OpenXR/API surfaces, privacy, legal and NPI/launch dependencies for XR input and developer capabilities.
 
 ---
 
-## What I work on
+## Public system: ONTEXA
 
-My current technical work is concentrated in a few areas:
+[ONTEXA](https://github.com/vbsamuel/ontexa) is a public biomedical discovery prototype built as a heterogeneous local-first system rather than a single-model wrapper.
 
-- **AI-native software systems** — agentic execution, local/private inference, multimodal context, retrieval/evidence systems, evaluation, model/runtime routing, and tool execution;
-- **distributed and event-driven systems** — durable state, replay/recovery, idempotency, causal ordering, state machines, resource control, and observable effects;
-- **developer infrastructure** — runtimes, APIs, execution environments, release/qualification systems, observability, and platform ergonomics;
-- **spatial / edge computing** — low-latency interaction, multimodal input, device/runtime coordination, and constrained compute;
-- **payments and enterprise platforms** — reliability, risk, controls, data products, and high-volume product operations.
+```text
+PubMed / PMC / GEO / SRA            ChEMBL / PubChem
+            │                              │
+            └────────── ingest / normalize ┘
+                           │
+                 GO · MONDO · UBERON
+                           │
+                    Neo4j + PostgreSQL
+                           │
+          ┌────────────────┼────────────────┐
+          │                │                │
+     dataset search    ranking/eval     graph discovery
+          │                │                │
+          └──────────── AI orchestration ───┘
+                           │
+                    local Ollama models
+                           │
+                  React operator surface
+```
 
-I still write and review code. The languages and environments I use most often are **Rust, Go, Python, TypeScript, WebAssembly, Linux/WSL, Windows, and local GPU inference stacks**.
+The implementation is directly inspectable:
+
+- [`services/ai_orchestrator/main.py`](https://github.com/vbsamuel/ontexa/blob/main/services/ai_orchestrator/main.py) — FastAPI orchestration, local Ollama model interface, tool registry, Neo4j access, caching, rate-limit retry, ChEMBL/PubChem integration, RDKit hooks and request-latency measurement;
+- [`infra/neo4j/schema.cypher`](https://github.com/vbsamuel/ontexa/blob/main/infra/neo4j/schema.cypher) — graph schema/index definition;
+- [`scripts/convert-ontology.py`](https://github.com/vbsamuel/ontexa/blob/main/scripts/convert-ontology.py) — ontology preprocessing;
+- repository data includes GO, MONDO and UBERON ontology material plus graph/search infrastructure;
+- the repo contains separate service boundaries for search, ranking and AI orchestration rather than putting every concern behind one prompt.
+
+The point of the project is visible in the source: **model output is one component in a larger retrieval, graph, ranking, measurement and operator system.**
+
+---
+
+## The systems questions I care about
+
+```text
+request accepted          != work completed
+message delivered         != effect committed
+provider success          != observed external state
+retry                     != idempotency
+retrieved context         != authoritative state
+model confidence          != evidence
+projection                != ownership
+compile success           != production qualification
+```
+
+Those distinctions change architecture.
+
+A state-changing path needs an identity before dispatch. A retry needs to know whether it is repeating computation or duplicating an external effect. A process restart cannot infer completion from the absence of an error. A fast model is not useful if retrieval, memory movement, serialization, synchronization, or readback dominates the critical path. An operator surface should expose the state that matters without becoming another source of truth.
+
+That is the level at which I tend to work: **the whole vertical, including the failure path**.
 
 ---
 
-## Engineering judgment
+## Engineering range
 
-A few principles matter to me more than framework choice:
+Recent hands-on work spans **Rust, Go, Python, TypeScript, WebAssembly, Linux/WSL, Windows, local GPU inference, graph/data systems, async services, event-driven execution and multimodal interfaces**.
 
-- distinguish **successful invocation** from **successful real-world outcome**;
-- make retries safe through explicit idempotency and recovery semantics;
-- keep state ownership clear rather than allowing parallel writers to emerge over time;
-- design failure, restart, rollback, and observability with the primary path;
-- treat performance, security, operability, and product behavior as one system problem;
-- measure against the exact artifact and environment being claimed;
-- prefer a working end-to-end vertical over a large amount of disconnected scaffolding.
+The language is rarely the hard part. The harder questions are usually:
 
-The interesting engineering usually begins where the happy-path diagram stops.
-
----
-
-## About this GitHub account
-
-This account is a working notebook, not a curated commercial product catalog. It contains a mix of original experiments, technical studies, prototypes, courses, and forks accumulated over time. Forks and learning repositories are not presented as original work.
-
-Current proprietary engineering is intentionally not exposed here. Public repositories should be evaluated on their own contents, not as a proxy for private work.
+```text
+Who owns this state?
+What is the durable identity of this operation?
+What happens after the process dies between dispatch and acknowledgement?
+How do we know the external effect actually occurred?
+What is authoritative when two systems disagree?
+What resource is on the critical path?
+What evidence would falsify the claim that this is done?
+```
 
 ---
+
+## Current work
+
+Current product and infrastructure work is proprietary and in flight. I do not publish project names, internal architecture, or unfinished claims here. When something becomes a public artifact, the code and evidence should carry the argument.
+
+This account also contains older experiments, courses, forks and reference repositories. They are part of the working history of the account, not a claim of authorship or a curated product catalog.
 
 [LinkedIn](https://www.linkedin.com/in/bsamuel)
