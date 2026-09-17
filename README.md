@@ -3,7 +3,7 @@
 I build systems where AI has to operate under real constraints: **latency, memory, concurrency, state, recovery, and evidence**.
 
 Amalgus . Meta · PayPal · eBay  
-MBA, Wharton · MS Electrical Engineering, USC · San Francisco Bay Area
+MBA, Wharton UPENN · MS Electrical Engineering, USC · San Francisco Bay Area
 
 ## Recent lab work
 
