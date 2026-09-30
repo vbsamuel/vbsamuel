@@ -3,123 +3,98 @@
 **Durable · Decomposable · Dynamic · Distributed Systems**  
 *Across software, machines, and silicon.*
 
-I work on systems where execution, state, resources, coordination, and failure behavior have to remain explicit under real constraints.
+I work on systems where execution, state, resources, coordination, and failure behavior remain explicit under real constraints.
 
 ---
 
-## Current Work
+## Selected Work
 
-### KV cache tiering under long-context pressure
+### Inference systems experiments
 
-When reusable KV state no longer fits on-device, when is reload cheaper than recomputation?
+Controlled experiments in inference serving and accelerator behavior. Each experiment keeps the failure case, the recorded measurements, and the boundary of what the data can support.
+
+| Experiment | Recorded result | What changed |
+|---|---:|---|
+| **KV cache tiering** | warm TTFT **9.315 s → 0.336 s** | reload wins only after reuse amortizes persistence and transfer; cold path regressed |
+| **Dynamic batching** | **1,438.9 → 2,923.3 QPS** at the best measured configuration | oversized configured batches added queueing overhead when offered concurrency could not fill them |
+| **Precision × batch** | **3,271.6 → 44,494.9 samples/s** across the measured sweep | throughput was still rising at the largest tested batch; no saturation knee claimed |
+| **Baseline drift** | apparent **5.77%** gain became **0.93%** against the stabilized baseline | candidate rejected as `INSUFFICIENT_EVIDENCE` |
+
+[repository](https://github.com/vbsamuel/llm-learning-kit) · [evidence manifest](https://github.com/vbsamuel/llm-learning-kit/blob/main/EVIDENCE_MANIFEST.json)
+
+### ONTEXA
+
+A local-first biomedical discovery system built as a set of explicit services rather than a model wrapper: dataset search, graph retrieval, ontology processing, ranking, local model orchestration, metrics, and an operator surface.
 
 ```text
-device cache only, warm TTFT      9.315 s
-device + host tier, warm TTFT     0.336 s    27.7×
-
-cold path                         9.377 s → 13.263 s   regression
-forced-eviction 30K context       2.871 s → 0.355 s    8.1×
+scientific sources
+      ↓
+ingest / ontology
+      ↓
+graph + search
+      ↓
+ranking
+      ↓
+local model orchestration
+      ↓
+operator surface
 ```
 
-The cold regression is part of the result: tiering only pays when reuse amortizes persistence and transfer cost.
+The implementation spans Go dataset search, Rust ranking, Python orchestration, Neo4j graph state, PostgreSQL, and a React operator surface.
 
-[notebook](https://github.com/vbsamuel/llm-learning-kit/blob/main/notebooks/01_kv-cache-tiering-under-pressure.ipynb) · [measurements](https://github.com/vbsamuel/llm-learning-kit/blob/main/data/kv_cache_recorded_run.json)
+[repository](https://github.com/vbsamuel/ontexa) · [orchestration](https://github.com/vbsamuel/ontexa/blob/main/services/ai_orchestrator/main.py) · [graph schema](https://github.com/vbsamuel/ontexa/blob/main/infra/neo4j/schema.cypher) · [ontology preprocessing](https://github.com/vbsamuel/ontexa/blob/main/scripts/convert-ontology.py)
 
-### Dynamic batching under concurrency
-
-The first batching configuration made the system slower.
-
-```text
-naive                         1,438.9 QPS
-max_batch=32, concurrency=16  1,106.6 QPS
-best measured max_batch=8     2,923.3 QPS
-```
-
-Configured batch capacity above offered concurrency can turn queue delay into pure overhead. The implementation includes the batcher, load generator, synchronization, instrumentation, and Pareto analysis.
-
-[notebook](https://github.com/vbsamuel/llm-learning-kit/blob/main/notebooks/02_dynamic-batching-under-concurrency.ipynb) · [measurements](https://github.com/vbsamuel/llm-learning-kit/blob/main/data/dynamic_batching_recorded_run.json)
-
-### Precision × batch frontier
-
-A joint throughput, memory, and numerical-fidelity experiment measured scaling from **3,271.6 to 44,494.9 samples/s**. The largest tested batch was still improving throughput, so it is not presented as a saturation knee.
-
-[notebook](https://github.com/vbsamuel/llm-learning-kit/blob/main/notebooks/03_precision-batch-frontier.ipynb) · [measurements](https://github.com/vbsamuel/llm-learning-kit/blob/main/data/precision_batch_recorded_run.json)
-
-### Optimization under baseline drift
-
-A candidate appeared **5.77%** faster against a cold baseline, but only **0.93%** faster against the stabilized baseline. With repeated runs, quality evidence, and tail-latency evidence missing, the optimizer returns `INSUFFICIENT_EVIDENCE` rather than promoting the flattering number.
-
-[notebook](https://github.com/vbsamuel/llm-learning-kit/blob/main/notebooks/04_adaptive-optimization-under-baseline-drift.ipynb) · [measurements](https://github.com/vbsamuel/llm-learning-kit/blob/main/data/optimizer_recorded_run.json)
-
-**[Inference systems experiments →](https://github.com/vbsamuel/llm-learning-kit)**
+> Public work appears here only when the implementation or evidence can be inspected directly. Forks, references, coursework, and unfinished prototypes are not part of this index.
 
 ---
 
-## ONTEXA
+## System Properties
 
-[ONTEXA](https://github.com/vbsamuel/ontexa) is a local-first biomedical discovery system combining graph retrieval, ontology-aware search, ranking, local model orchestration, and an operator surface.
-
-The model is one component of the system rather than the system boundary:
-
-- [AI orchestration](https://github.com/vbsamuel/ontexa/blob/main/services/ai_orchestrator/main.py) — model interface, tool execution, graph access, caching, retries, external scientific-data access, and latency instrumentation
-- [graph schema](https://github.com/vbsamuel/ontexa/blob/main/infra/neo4j/schema.cypher)
-- [ontology preprocessing](https://github.com/vbsamuel/ontexa/blob/main/scripts/convert-ontology.py)
-
----
-
-## Systems
-
-### Durable
-
-State, identity, provenance, recovery, and semantics that survive process, machine, and time boundaries.
-
-### Decomposable
-
-Explicit components, interfaces, ownership, state machines, and independently testable behavior.
-
-### Dynamic
-
-Execution that adapts to changing workload, topology, resources, latency, and operating conditions.
-
-### Distributed
-
-Computation, state, authority, and coordination across processes, machines, accelerators, and people.
+**Durable** — state, identity, provenance, recovery, and semantics that survive process, machine, and time boundaries.  
+**Decomposable** — explicit components, interfaces, ownership, state machines, and independently testable behavior.  
+**Dynamic** — execution that responds to changing workload, topology, resources, latency, and operating conditions.  
+**Distributed** — computation, state, authority, and coordination across processes, machines, accelerators, and people.
 
 ---
 
 ## Working Areas
 
-| Area | Problems |
+| Area | Current questions |
 |---|---|
 | **Execution** | scheduling, placement, batching, streaming, backpressure, retry, checkpointing, recovery |
-| **State** | authoritative state, journals, memory, causality, reconciliation, durable transitions |
+| **State** | ownership, journals, memory, causality, reconciliation, durable transitions |
 | **Coordination** | routing, delegation, attribution, synchronization, machine-to-machine and agent-to-agent interaction |
-| **Compute** | CPU/GPU execution, heterogeneous resources, locality, resource allocation, runtime control |
+| **Compute** | CPU/GPU execution, heterogeneous resources, locality, allocation, runtime control |
 | **Representation** | intermediate representations, structured content, spatial systems, progressive rendering, interaction surfaces |
 | **Verification** | invariants, qualification, falsification, fault injection, reproducibility, measured evidence |
 
 ---
 
-## Working Principles
+## Engineering Rules
 
-- State should have an owner.
-- Work should have a resource cost.
-- Boundaries should be explicit.
-- Failures should have defined outcomes.
-- Distributed actions should retain causality.
-- Measurements should include the unfavorable result.
-- Claims should terminate in code, tests, measurements, or reproducible evidence.
+```text
+state            → one explicit authority
+work             → bounded by real resources
+mutation         → declared path
+failure          → defined outcome
+retry            → idempotent effect
+coordination     → retained causality
+measurement      → workload + environment + counter-result
+claim            → code, test, measurement, or reproducible evidence
+```
 
 ---
 
-## Repository Roles
+## Repository Index
 
-**Systems** — substantial implementations  
+**Systems** — substantial original implementations  
 **Components** — reusable subsystems  
 **Experiments** — bounded technical hypotheses  
 **Research** — technical investigations and implementations  
-**References** — upstream work retained for study  
+**References / Forks** — upstream work retained for study  
 **Archive** — historical work not representative of current engineering
+
+The public repository count is not the portfolio. The index above is.
 
 ---
 
@@ -134,7 +109,5 @@ eBay      separation / personalization / operations      large-scale platform ch
 ```
 
 Work in my scope included reducing reporting latency from roughly **24 hours to under a minute**, reducing cart abandonment by about **10%**, and scaling PayPal Credit from launch to **$1B+ ARR**.
-
-Most current product and infrastructure work is proprietary and in flight, so I keep it off this page until there is something public that can be inspected on its own merits.
 
 [LinkedIn](https://www.linkedin.com/in/bsamuel)
