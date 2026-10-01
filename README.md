@@ -48,6 +48,22 @@ The implementation spans Go dataset search, Rust ranking, Python orchestration, 
 
 ---
 
+## Current Builds
+
+These names are reserved for systems being developed as independent, testable implementations. They are not listed as completed work until code, qualification, and measured evidence are public.
+
+| Project | Engineering problem |
+|---|---|
+| **NodeFit** | determine whether a workload can safely execute on a measured machine and where its binding resource constraint lies |
+| **TypeMap** | identify where data loses meaning across type systems, formats, storage engines, and execution boundaries |
+| **SafePath** | verify whether consequential operations remain correct across effect, persistence, acknowledgement, and retry boundaries |
+| **Rebound** | enumerate and qualify the states reachable after interruption, restart, reconciliation, and recovery |
+| **SourceIQ** | reconstruct which prior execution, state transition, or external effect produced an observed result |
+| **DataHop** | preserve typed object identity and ownership while data moves across runtimes and memory domains |
+| **RunPack** | capture the inputs, state, effects, timing, dependencies, and evidence required to inspect and reproduce an execution |
+
+---
+
 ## System Properties
 
 **Durable** — state, identity, provenance, recovery, and semantics that survive process, machine, and time boundaries.  
