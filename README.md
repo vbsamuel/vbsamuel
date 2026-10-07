@@ -1,4 +1,4 @@
-# Ideas, Proposals & Paper Clips
+# Ideas, Methods, & Paper Clips
 
 **Durable · Decomposable · Dynamic · Distributed Systems**  
 *Across software, machines, and silicon.*
